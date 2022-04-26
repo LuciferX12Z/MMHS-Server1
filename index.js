@@ -17,7 +17,7 @@ const config = {
 
 app.use(
   cors({
-    origin: "https://mmhs-client1.vercel.app/",
+    origin: "https://mmhs-client1.vercel.app",
     credentials: true,
   })
 );
