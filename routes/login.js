@@ -44,6 +44,7 @@ router.post("/", async (req, res) => {
                 path: "/",
                 httpOnly: true,
                 sameSite: "None",
+                secure: true,
               })
               .status(200)
               .json({
