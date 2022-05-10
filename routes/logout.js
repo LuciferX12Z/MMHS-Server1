@@ -1,5 +1,5 @@
 const router = require("express").Router();
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
   console.log(req.cookies.token);
   res
     .clearCookie("token", { path: "/" })
