@@ -15,12 +15,20 @@ const config = {
   COOKIE_SECRET_KEY_2: process.env.COOKIE_SECRET_2,
 };
 
-app.use(
-  cors({
-    origin: "https://mmhs-client1.vercel.app",
-    credentials: true,
-  })
-);
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
 app.use(helmet());
 app.use(express.json({ limit: "50mb", extended: true }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -31,7 +39,6 @@ app.use(cookieParser());
 //     name: "session-id",
 //     secret: config.SESSION_SECRET,
 //     // expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-//     domain: "localhost",
 //     keys: [config.COOKIE_SECRET_KEY_1, config.COOKIE_SECRET_KEY_2],
 //   })
 // );

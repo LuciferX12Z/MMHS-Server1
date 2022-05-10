@@ -1,8 +1,8 @@
 const router = require("express").Router();
 router.get("/", (req, res) => {
-  console.log(req.cookies.token)
+  console.log(req.cookies.token);
   res
-    .clearCookie("token", { domain: "localhost", path: "/" })
+    .clearCookie("token", { path: "/" })
     .status(200)
     .json({
       message: "ok",
