@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   checkLoggedIn: (req, res, next) => {
     const token = req.cookies.token;
+    console.log(token);
     if (!token) {
       return res.status(401).json({
         message: "You are not logged in",
