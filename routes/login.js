@@ -41,6 +41,7 @@ router.post("/", async (req, res) => {
             );
             res
               .cookie("token", token, {
+                domain: "https://mmhs-client1.vercel.app",
                 path: "/",
                 httpOnly: true,
                 sameSite: "None",

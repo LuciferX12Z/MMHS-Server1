@@ -5,6 +5,9 @@ router.post("/", (req, res) => {
     .clearCookie("token", {
       domain: "https://mmhs-client1.vercel.app",
       path: "/",
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
     })
     .status(200)
     .json({
