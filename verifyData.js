@@ -17,6 +17,7 @@ const booksSchema = Joi.object({
   details: Joi.string().required(),
   publisher: Joi.string().min(5).max(30).required(),
   publish_date: Joi.string().required(),
+  bookUrl: Joi.allow(null),
 });
 
 const studentSchema = Joi.object({
@@ -79,13 +80,13 @@ const verifyClassData = async (
 ) => {
   try {
     const { error } = await classesSchema.validateAsync({
-  courseName,
-  details,
-  endingDate,
-  fee,
-  startingDate,
-  studentLimit,
-  teacher
+      courseName,
+      details,
+      endingDate,
+      fee,
+      startingDate,
+      studentLimit,
+      teacher,
     });
 
     if (typeof error === "undefined") {
@@ -113,8 +114,8 @@ const verifyAdminData = async (
       gender,
       email,
       phoneNumber,
-      password
-    }) 
+      password,
+    });
 
     if (typeof error === "undefined") {
       return true;
@@ -128,11 +129,12 @@ const verifyAdminData = async (
 
 const verifyBookData = async (
   book_name,
-    author,
-    category,
-    details,
-    publisher,
-    publish_date,
+  author,
+  category,
+  details,
+  publisher,
+  publish_date,
+  bookUrl
 ) => {
   try {
     const { error } = await booksSchema.validateAsync({
@@ -142,6 +144,7 @@ const verifyBookData = async (
       details,
       publisher,
       publish_date,
+      bookUrl,
     });
 
     if (typeof error === "undefined") {
@@ -154,5 +157,9 @@ const verifyBookData = async (
   }
 };
 
-
-module.exports = { verifyStudentData , verifyAdminData , verifyClassData , verifyBookData };
+module.exports = {
+  verifyStudentData,
+  verifyAdminData,
+  verifyClassData,
+  verifyBookData,
+};
