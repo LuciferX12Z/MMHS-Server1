@@ -2,6 +2,9 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const { adminsModel } = require("../database/Models");
 const bcrypt = require("bcryptjs");
+const { CORS_FRONT_END_URL } = require("../index");
+
+const isProdMode = process.env.NODE_ENV === "production";
 
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
@@ -41,11 +44,11 @@ router.post("/", async (req, res) => {
             );
             res
               .cookie("token", token, {
-                domain: "https://mmhs-client1.vercel.app",
+                domain: CORS_FRONT_END_URL,
                 path: "/",
-                httpOnly: true,
-                sameSite: "None",
-                secure: true,
+                httpOnly: isProdMode ? true : false,
+                sameSite: isProdMode ? "None" : "lax",
+                secure: isProdMode ? true : false,
               })
               .status(200)
               .json({
