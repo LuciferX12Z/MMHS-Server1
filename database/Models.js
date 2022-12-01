@@ -22,7 +22,7 @@ const booksSchema = new mongoose.Schema({
   details: String,
   publisher: String,
   publish_date: Date,
-  bookURL: { type: String, required: false },
+  bookUrl: { type: String, required: false },
 });
 
 const classesSchema = new mongoose.Schema({
