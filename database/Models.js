@@ -9,15 +9,21 @@ const adminsSchema = new mongoose.Schema({
   role: String,
 });
 
-// const booksSchema = new mongoose.Schema({
-//     book_name : {type:String, required:true},
-//     author : {type:String, required:true},
-//     author_pic : String,
-//     category : {type:String, required:true},
-//     details : String,
-//     publisher : String,
-//     publish_date : Date
-// })
+const booksSchema = new mongoose.Schema({
+  bookImageUpload: [
+    {
+      url: String,
+      public_id: String,
+    },
+  ],
+    book_name : {type:String, required:true},
+    author : {type:String, required:true},
+    category : {type:String, required:true},
+    details : String,
+    publisher : String,
+    publish_date : Date,
+    bookURL : String
+});
 
 const classesSchema = new mongoose.Schema({
   courseImageUpload: [
@@ -62,8 +68,8 @@ const studentsSchema = new mongoose.Schema({
 // class_id: { type: String, required: true },
 
 const adminsModel = mongoose.model("admin", adminsSchema);
-// const booksModel = new mongoose.model("book", booksSchema)
+const booksModel = mongoose.model("book", booksSchema);
 const classesModel = mongoose.model("class", classesSchema);
 // const eventsModel = new mongoose.model("event", eventsSchema)
 const studentsModel = mongoose.model("student", studentsSchema);
-module.exports = { adminsModel, studentsModel, classesModel };
+module.exports = { adminsModel, studentsModel, classesModel, booksModel };

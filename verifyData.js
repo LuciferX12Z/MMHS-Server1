@@ -10,6 +10,15 @@ const classesSchema = Joi.object({
   details: Joi.string().required(),
 });
 
+const booksSchema = Joi.object({
+  book_name: Joi.string().min(5).max(30).required(),
+  author: Joi.string().min(5).max(30).required(),
+  category: Joi.string().required(),
+  details: Joi.string().required(),
+  publisher: Joi.string().min(5).max(30).required(),
+  publish_date: Joi.string().required(),
+});
+
 const studentSchema = Joi.object({
   name: Joi.string().min(5).max(30).required(),
   age: Joi.number().min(1).max(80).required(),
@@ -117,4 +126,33 @@ const verifyAdminData = async (
   }
 };
 
-module.exports = { verifyStudentData , verifyAdminData , verifyClassData };
+const verifyBookData = async (
+  book_name,
+    author,
+    category,
+    details,
+    publisher,
+    publish_date,
+) => {
+  try {
+    const { error } = await booksSchema.validateAsync({
+      book_name,
+      author,
+      category,
+      details,
+      publisher,
+      publish_date,
+    });
+
+    if (typeof error === "undefined") {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.log(e.details[0].message);
+  }
+};
+
+
+module.exports = { verifyStudentData , verifyAdminData , verifyClassData , verifyBookData };

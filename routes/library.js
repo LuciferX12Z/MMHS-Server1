@@ -1,90 +1,55 @@
-// const router = require("express").Router();
-// const { verifyClassData } = require("../verifyData");
-// const { classesModel } = require("../database/Models");
-// const cloudinary = require("cloudinary").v2;
-// const { ObjectId } = require("mongodb");
-// const { checkLoggedIn } = require("../middlewares/checkLoggedIn");
+const router = require("express").Router();
+const { verifyBookData } = require("../verifyData");
+const { booksModel } = require("../database/Models");
+const cloudinary = require("cloudinary").v2;
+const { ObjectId } = require("mongodb");
+const { checkLoggedIn } = require("../middlewares/checkLoggedIn");
+const { uploadToCloudinary } = require("./courses");
 
-// async function uploadToCloudinary(courseImageUpload) {
-//   const imagesToBeUploaded = courseImageUpload?.fileList?.filter(
-//     (image) => image?.name
-//   );
-//   let imagesToNotBeUploaded = [];
-//   for (i = 0; i < courseImageUpload?.fileList?.length; i++) {
-//     if (courseImageUpload?.fileList[i]?.url) {
-//       imagesToNotBeUploaded.push({
-//         url: courseImageUpload?.fileList[i]?.url,
-//         public_id: courseImageUpload?.fileList[i]?.public_id,
-//       });
-//     }
-//   }
+router.post("/addBook", checkLoggedIn, async (req, res) => {
+  const {
+    bookImageUpload,
+    book_name,
+    author,
+    category,
+    details,
+    publisher,
+    publish_date,
+  } = req.body;
+  const bookData = await verifyBookData(
+    book_name,
+    author,
+    category,
+    details,
+    publisher,
+    publish_date
+  ).then((value) => value);
+  if (!bookData) {
+    return res.status(400).json({ message: "Error:Wrong type of Data!" });
+  }
+  try {
+    const bookCheck = await booksModel.findOne({ book_name: book_name }).exec();
+    if (!bookCheck) {
+      let image = [];
+      image = await uploadToCloudinary(courseImageUpload);
 
-//   let images = [];
-//   for (let i = 0; i < imagesToBeUploaded?.length; i++) {
-//     const img = await cloudinary.uploader
-//       .upload(imagesToBeUploaded[i]?.image?.image, (error, result) => {
-//         return result.secure_url;
-//       })
-//       .then((value) =>
-//         images.push({
-//           url: value.secure_url,
-//           public_id: value.public_id,
-//         })
-//       );
-//     // .then((value) => images.push(value.secure_url));
-//   }
-//   return [...images, ...imagesToNotBeUploaded];
-// }
-
-// router.post("/addCourse", checkLoggedIn, async (req, res) => {
-//   const {
-//     courseImageUpload,
-//     courseName,
-//     details,
-//     endingDate,
-//     fee,
-//     startingDate,
-//     studentLimit,
-//     teacher,
-//   } = req.body;
-//   const classData = await verifyClassData(
-//     courseName,
-//     details,
-//     endingDate,
-//     fee,
-//     startingDate,
-//     studentLimit,
-//     teacher
-//   ).then((value) => value);
-//   if (!classData) {
-//     return res.status(400).json({ message: "Error:Wrong type of Data!" });
-//   }
-//   try {
-//     const courseCheck = await classesModel
-//       .findOne({ courseName: courseName })
-//       .exec();
-//     if (!courseCheck) {
-//       let image = [];
-//       image = await uploadToCloudinary(courseImageUpload);
-
-//       const classes = new classesModel({
-//         courseImageUpload: image,
-//         courseName: courseName,
-//         details: details,
-//         endingDate: endingDate,
-//         fee: fee,
-//         startingDate: startingDate,
-//         studentLimit: studentLimit,
-//         teacher: teacher,
-//       });
-//       await classes.save();
-//       return res.json({ message: "Success:Course created successfully!" });
-//     }
-//     return res.status(400).json({ message: "Error:Course already exists!" });
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
+      const books = new booksModel({
+        bookImageUpload,
+        book_name,
+        author,
+        category,
+        details,
+        publisher,
+        publish_date,
+      });
+      await books.save();
+      return res.json({ message: "Success:Book created successfully!" });
+    }
+    return res.status(400).json({ message: "Error:Book already exists!" });
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 // router.put("/editCourse/:id", checkLoggedIn, async (req, res) => {
 //   const { id } = req.params;
