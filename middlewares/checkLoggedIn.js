@@ -1,9 +1,11 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+
 module.exports = {
   checkLoggedIn: (req, res, next) => {
-    const token = req?.cookies?.token?.split("=")[1];
-    // console.log(token);
+    // const token = req?.cookies?.token?.split("=")[1];
+    const token = req?.cookies?.token;
+    console.log(token);
     if (!token) {
       return res.status(401).json({
         message: "You are not logged in",
