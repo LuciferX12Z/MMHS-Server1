@@ -15,11 +15,13 @@ const config = {
   COOKIE_SECRET_KEY_2: process.env.COOKIE_SECRET_2,
 };
 
+const CORS_FRONT_END_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.PRODUCTION_FRONTEND_URL
+    : process.env.DEVELOPMENT_FRONTEND_URL;
+
 app.use(function (req, res, next) {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://mmhs-client1.vercel.app"
-  );
+  res.setHeader("Access-Control-Allow-Origin", CORS_FRONT_END_URL);
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", true);
@@ -28,7 +30,7 @@ app.use(function (req, res, next) {
 
 app.use(
   cors({
-    origin: "https://mmhs-client1.vercel.app",
+    origin: CORS_FRONT_END_URL,
     credentials: true,
   })
 );
@@ -70,3 +72,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log("SHIT");
 });
+
+module.exports = {
+  CORS_FRONT_END_URL,
+};
