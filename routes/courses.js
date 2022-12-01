@@ -152,4 +152,4 @@ router.delete("/deleteCourse/:id", async (req, res) => {
     console.log(e);
   }
 });
-module.exports = router;
+module.exports = {router, uploadToCloudinary};
