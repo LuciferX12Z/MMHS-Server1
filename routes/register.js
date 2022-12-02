@@ -4,7 +4,7 @@ const { adminsModel } = require("../database/Models");
 const bcrypt = require("bcryptjs");
 const { checkLoggedIn } = require("../middlewares/checkLoggedIn");
 
-router.post("/register", checkLoggedIn, async (req, res) => {
+router.post("/", checkLoggedIn, async (req, res) => {
   const { name, role, gender, email, phoneNumber, password, confirmPassword } =
     req.body;
   const adminData = await verifyAdminData(

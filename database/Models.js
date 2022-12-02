@@ -16,13 +16,13 @@ const booksSchema = new mongoose.Schema({
       public_id: String,
     },
   ],
-    book_name : {type:String, required:true},
-    author : {type:String, required:true},
-    category : {type:String, required:true},
-    details : String,
-    publisher : String,
-    publish_date : Date,
-    bookURL : String
+  book_name: { type: String, required: true },
+  author: { type: String, required: true },
+  category: { type: String, required: true },
+  details: String,
+  publisher: String,
+  publish_date: Date,
+  bookUrl: { type: String, required: false },
 });
 
 const classesSchema = new mongoose.Schema({

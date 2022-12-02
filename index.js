@@ -48,12 +48,13 @@ app.use(cookieParser());
 //   })
 // );
 
-app.use("/", require("./routes/register"));
+app.use("/register", require("./routes/register"));
 app.use("/", require("./routes/courses"));
 app.use("/apply", require("./routes/applyStudent"));
 app.use("/checkSession", require("./routes/checkSession"));
 app.use("/getcourse", require("./routes/getCourses"));
 app.use("/getlibrary", require("./routes/getLibrary"));
+app.use("/library", require("./routes/library"));
 app.use("/getStudentCount", require("./routes/getStudentCount"));
 app.use("/login", require("./routes/login"));
 app.use("/logout", require("./routes/logout"));
