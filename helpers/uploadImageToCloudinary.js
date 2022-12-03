@@ -20,13 +20,14 @@ async function uploadToCloudinary(imageToBeUploaded) {
       .upload(imagesToBeUploaded[i]?.image?.image, (error, result) => {
         return result.secure_url;
       })
-      .then((value) =>
+      .then((value) => {
         images.push({
           url: value.secure_url,
           public_id: value.public_id,
-        })
-      );
-    // .then((value) => images.push(value.secure_url));
+          secure_url: value.secure_url,
+        });
+      });
+    // .then((value) =>   images.push(value.secure_url));
   }
   return [...images, ...imagesToNotBeUploaded];
 }
