@@ -32,9 +32,9 @@ router.post("/addBook", checkLoggedIn, async (req, res) => {
     const bookCheck = await booksModel.findOne({ book_name: book_name }).exec();
     if (!bookCheck) {
       let image = [];
-      image = uploadToCloudinary(bookImageUpload);
+      image = await uploadToCloudinary(bookImageUpload);
       const books = new booksModel({
-        bookImageUpload,
+        bookImageUpload: image,
         book_name,
         author,
         category,
