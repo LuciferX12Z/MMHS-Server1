@@ -8,9 +8,9 @@ const CORS_FRONT_END_URL =
 
 module.exports = {
   checkLoggedIn: (req, res, next) => {
-    const token = req?.cookies?.token?.split("=")[1];
-    // const token = req?.cookies?.token;
-    // console.log(token);
+    const token = req?.cookies?.token?.split("=")[1]
+      ? req?.cookies?.token?.split("=")[1]
+      : req.cookies.token;
     if (!token) {
       return res.status(401).json({
         message: "You are not logged in",
