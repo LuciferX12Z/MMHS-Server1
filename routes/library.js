@@ -85,7 +85,7 @@ router.put("/editBook/:id", checkLoggedIn, async (req, res) => {
       const book = await booksModel.updateOne(
         { _id: ObjectId(id) },
         {
-          bookImageUpload,
+          bookImageUpload: image,
           book_name,
           author,
           category,

@@ -4,6 +4,7 @@ async function uploadToCloudinary(imageToBeUploaded) {
   const imagesToBeUploaded = imageToBeUploaded?.fileList?.filter(
     (image) => image?.name
   );
+
   let imagesToNotBeUploaded = [];
   for (i = 0; i < imageToBeUploaded?.fileList?.length; i++) {
     if (imageToBeUploaded?.fileList[i]?.url) {
