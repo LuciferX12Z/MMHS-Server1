@@ -5,8 +5,6 @@ const { ObjectId } = require("mongodb");
 const { checkLoggedIn } = require("../middlewares/checkLoggedIn");
 const uploadToCloudinary = require("../helpers/uploadImageToCloudinary");
 
-
-
 router.post("/addCourse", checkLoggedIn, async (req, res) => {
   const {
     courseImageUpload,
@@ -123,4 +121,4 @@ router.delete("/deleteCourse/:id", async (req, res) => {
     console.log(e);
   }
 });
-module.exports =  router 
+module.exports = router;
