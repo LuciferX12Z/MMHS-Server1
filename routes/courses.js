@@ -1,40 +1,9 @@
 const router = require("express").Router();
 const { verifyClassData } = require("../verifyData");
 const { classesModel } = require("../database/Models");
-const cloudinary = require("cloudinary").v2;
 const { ObjectId } = require("mongodb");
 const { checkLoggedIn } = require("../middlewares/checkLoggedIn");
-
-async function uploadToCloudinary(courseImageUpload) {
-  const imagesToBeUploaded = courseImageUpload?.fileList?.filter(
-    (image) => image?.name
-  );
-  let imagesToNotBeUploaded = [];
-  for (i = 0; i < courseImageUpload?.fileList?.length; i++) {
-    if (courseImageUpload?.fileList[i]?.url) {
-      imagesToNotBeUploaded.push({
-        url: courseImageUpload?.fileList[i]?.url,
-        public_id: courseImageUpload?.fileList[i]?.public_id,
-      });
-    }
-  }
-
-  let images = [];
-  for (let i = 0; i < imagesToBeUploaded?.length; i++) {
-    const img = await cloudinary.uploader
-      .upload(imagesToBeUploaded[i]?.image?.image, (error, result) => {
-        return result.secure_url;
-      })
-      .then((value) =>
-        images.push({
-          url: value.secure_url,
-          public_id: value.public_id,
-        })
-      );
-    // .then((value) => images.push(value.secure_url));
-  }
-  return [...images, ...imagesToNotBeUploaded];
-}
+const uploadToCloudinary = require("../helpers/uploadImageToCloudinary");
 
 router.post("/addCourse", checkLoggedIn, async (req, res) => {
   const {
@@ -152,4 +121,4 @@ router.delete("/deleteCourse/:id", async (req, res) => {
     console.log(e);
   }
 });
-module.exports = {router, uploadToCloudinary};
+module.exports = router;

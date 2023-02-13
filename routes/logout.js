@@ -1,18 +1,20 @@
 const router = require("express").Router();
+const isProdMode = process.env.NODE_ENV === "production";
+const { CORS_FRONT_END_URL } = require("../app");
+
 router.post("/", (req, res) => {
   console.log(req.cookies.token);
   res
     .clearCookie("token", {
-      domain: "https://mmhs-client1.vercel.app",
+      domain: CORS_FRONT_END_URL,
       path: "/",
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
+      httpOnly: isProdMode ? true : false,
+      sameSite: isProdMode ? "None" : "lax",
+      secure: isProdMode ? true : false,
     })
     .status(200)
     .json({
       message: "ok",
-      token: req.cookies.token,
     })
     .end();
 });

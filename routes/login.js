@@ -2,6 +2,9 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const { adminsModel } = require("../database/Models");
 const bcrypt = require("bcryptjs");
+const { CORS_FRONT_END_URL } = require("../app");
+
+const isProdMode = process.env.NODE_ENV === "production";
 
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
@@ -41,11 +44,11 @@ router.post("/", async (req, res) => {
             );
             res
               .cookie("token", token, {
-                domain: "https://mmhs-client1.vercel.app",
+                domain: CORS_FRONT_END_URL,
                 path: "/",
-                httpOnly: true,
-                sameSite: "None",
-                secure: true,
+                httpOnly: isProdMode ? true : false,
+                sameSite: isProdMode ? "None" : "lax",
+                secure: isProdMode ? true : false,
               })
               .status(200)
               .json({
@@ -61,24 +64,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
-// const router = require("express").Router();
-// const passport = require("passport");
-// const LocalStrategy = require("passport-local");
-// const { adminsModel } = require("../database/Models");
-// router.post(
-//   "/",
-//   passport.authenticate("local", {
-//     successMessage: "Successfully logged in",
-//     failureMessage: "Invalid email or password",
-//   }),
-//   async (req, res) => {
-//     res.setHeader("WWW-Authenticate", "Basic");
-//     console.log(req.body);
-//     res.status(200).json({
-//       message: "Successfully logged in",
-//     });
-//   }
-// );
-
-// module.exports = router;
