@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const { adminsModel } = require("../database/Models");
 const bcrypt = require("bcryptjs");
-const { CORS_FRONT_END_URL } = require("../index");
+const { CORS_FRONT_END_URL } = require("../app");
 
 const isProdMode = process.env.NODE_ENV === "production";
 
@@ -64,24 +64,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
-// const router = require("express").Router();
-// const passport = require("passport");
-// const LocalStrategy = require("passport-local");
-// const { adminsModel } = require("../database/Models");
-// router.post(
-//   "/",
-//   passport.authenticate("local", {
-//     successMessage: "Successfully logged in",
-//     failureMessage: "Invalid email or password",
-//   }),
-//   async (req, res) => {
-//     res.setHeader("WWW-Authenticate", "Basic");
-//     console.log(req.body);
-//     res.status(200).json({
-//       message: "Successfully logged in",
-//     });
-//   }
-// );
-
-// module.exports = router;
